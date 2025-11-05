@@ -3,667 +3,556 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Universe Awaits 💫</title>
+    <title>Priya... Will You Be Mine?</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none;
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background: #000;
-            overflow: auto;
+            font-family: 'Georgia', serif;
+            background: #0a0e27;
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.8;
             position: relative;
-            min-height: 100vh;
         }
 
-        /* Custom cursor */
-        .cursor {
-            width: 20px;
-            height: 20px;
-            border: 2px solid #fff;
-            border-radius: 50%;
+        .night-sky {
             position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            transition: 0.1s;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #0a0e27 0%, #1a1f3a 50%, #2d1b4e 100%);
+            z-index: 0;
         }
 
-        .cursor-trail {
-            width: 8px;
-            height: 8px;
-            background: radial-gradient(circle, #ff69b4, transparent);
-            border-radius: 50%;
+        .stars {
             position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
-            z-index: 9998;
-            animation: fadeOut 1s forwards;
+            z-index: 1;
         }
 
-        @keyframes fadeOut {
-            to {
-                transform: scale(2);
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 4s infinite;
+        }
+
+        .star.small { width: 1px; height: 1px; }
+        .star.medium { width: 2px; height: 2px; }
+        .star.large { width: 3px; height: 3px; box-shadow: 0 0 4px #fff; }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .shooting-star {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, #fff, transparent);
+            animation: shoot 3s linear infinite;
+        }
+
+        @keyframes shoot {
+            0% {
+                transform: translateX(0) translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(-300px) translateY(300px);
                 opacity: 0;
             }
         }
 
-        /* Starfield background */
-        #canvas {
+        .moon {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
+            top: 80px;
+            right: 100px;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #fefefe, #f0e68c 30%, #daa520 100%);
+            box-shadow: 
+                0 0 60px rgba(255, 255, 200, 0.6),
+                0 0 100px rgba(255, 255, 200, 0.4),
+                inset -20px -20px 40px rgba(0, 0, 0, 0.1);
+            animation: moonGlow 4s ease-in-out infinite;
+            z-index: 2;
         }
 
-        /* Loading screen */
-        .loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-            transition: opacity 2s ease;
+        .moon::before {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.05);
+            top: 40px;
+            left: 50px;
         }
 
-        .loader.hide {
-            opacity: 0;
-            pointer-events: none;
+        .moon::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.03);
+            top: 80px;
+            right: 40px;
         }
 
-        .pulse-heart {
-            font-size: 60px;
-            animation: heartbeat 1s ease-in-out infinite;
+        @keyframes moonGlow {
+            0%, 100% { 
+                box-shadow: 
+                    0 0 60px rgba(255, 255, 200, 0.6),
+                    0 0 100px rgba(255, 255, 200, 0.4),
+                    inset -20px -20px 40px rgba(0, 0, 0, 0.1);
+            }
+            50% { 
+                box-shadow: 
+                    0 0 80px rgba(255, 255, 200, 0.8),
+                    0 0 120px rgba(255, 255, 200, 0.5),
+                    inset -20px -20px 40px rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 3;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .opening {
+            text-align: center;
+            margin-bottom: 80px;
+            animation: fadeInScale 2s ease;
+        }
+
+        .opening h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffd700, #fff, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+            letter-spacing: 3px;
+        }
+
+        .opening p {
+            font-size: 1.5em;
+            opacity: 0.9;
+            font-style: italic;
+            color: #ffd700;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .chapter {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 50px;
+            margin-bottom: 50px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.4),
+                inset 0 0 40px rgba(255, 215, 0, 0.05);
+            animation: fadeInUp 1s ease;
+            border: 2px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .chapter-title {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #ffd700;
+            text-align: center;
+            position: relative;
+            padding-bottom: 20px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .chapter-title:after {
+            content: '✨';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.6em;
+        }
+
+        .content {
+            font-size: 1.2em;
+            line-height: 2.2;
+            text-align: justify;
+        }
+
+        .content p {
+            margin-bottom: 25px;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .quote {
+            font-style: italic;
+            text-align: center;
+            font-size: 1.4em;
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 255, 255, 0.05));
+            border-left: 5px solid #ffd700;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+            line-height: 2;
+        }
+
+        .proposal-section {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 255, 255, 0.1));
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 60px;
+            margin: 80px 0;
+            text-align: center;
+            border: 3px solid rgba(255, 215, 0, 0.4);
+            box-shadow: 
+                0 0 60px rgba(255, 215, 0, 0.4),
+                inset 0 0 60px rgba(255, 215, 0, 0.1);
+            animation: pulseGlow 3s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% {
+                box-shadow: 
+                    0 0 60px rgba(255, 215, 0, 0.4),
+                    inset 0 0 60px rgba(255, 215, 0, 0.1);
+            }
+            50% {
+                box-shadow: 
+                    0 0 80px rgba(255, 215, 0, 0.6),
+                    inset 0 0 80px rgba(255, 215, 0, 0.15);
+            }
+        }
+
+        .proposal-section h2 {
+            font-size: 3em;
+            margin-bottom: 30px;
+            color: #ffd700;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+        }
+
+        .proposal-section p {
+            font-size: 1.5em;
+            line-height: 2.2;
+            margin-bottom: 30px;
+        }
+
+        .heart-container {
+            text-align: center;
+            margin: 50px 0;
+        }
+
+        .heart {
+            display: inline-block;
+            font-size: 4em;
+            animation: heartbeat 1.5s infinite;
+            filter: drop-shadow(0 0 20px rgba(255, 0, 100, 0.8));
         }
 
         @keyframes heartbeat {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.3); }
+            25% { transform: scale(1.2); }
+            50% { transform: scale(1); }
         }
 
-        .loading-text {
-            color: #fff;
-            margin-top: 20px;
-            font-size: 18px;
-            letter-spacing: 2px;
-            opacity: 0.8;
+        .letter-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            font-size: 1.15em;
+            line-height: 2;
         }
 
-        /* Main content */
-        .universe {
-            position: relative;
+        .signature {
+            text-align: right;
+            font-style: italic;
+            margin-top: 30px;
+            font-size: 1.3em;
+            color: #ffd700;
+        }
+
+        .image-placeholder {
             width: 100%;
-            height: 100vh;
+            height: 300px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 255, 255, 0.05));
+            border-radius: 20px;
             display: flex;
-            justify-content: center;
             align-items: center;
-            z-index: 10;
-        }
-
-        /* Stage container */
-        .stage {
-            position: absolute;
-            width: 100%;
-            min-height: 100vh;
-            display: none;
-            flex-direction: column;
             justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .stage.active {
-            display: flex;
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        /* Stage 1: Intro */
-        .intro-text {
-            color: #fff;
-            text-align: center;
-            animation: glow 2s ease-in-out infinite;
-        }
-
-        @keyframes glow {
-            0%, 100% {
-                text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
-                           0 0 20px rgba(255, 255, 255, 0.6),
-                           0 0 30px rgba(255, 255, 255, 0.4);
-            }
-            50% {
-                text-shadow: 0 0 20px rgba(255, 255, 255, 1),
-                           0 0 30px rgba(255, 255, 255, 0.8),
-                           0 0 40px rgba(255, 255, 255, 0.6);
-            }
-        }
-
-        .intro-text h1 {
-            font-size: 4em;
-            margin-bottom: 20px;
-            opacity: 0;
-            animation: fadeInUp 2s forwards;
-        }
-
-        .intro-text p {
-            font-size: 1.5em;
-            opacity: 0;
-            animation: fadeInUp 2s forwards 0.5s;
+            margin: 30px 0;
+            border: 2px dashed rgba(255, 215, 0, 0.3);
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.5);
         }
 
         @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(-20px);
-            }
-        }
-
-        /* Galaxy button */
-        .galaxy-btn {
-            margin-top: 50px;
-            padding: 20px 50px;
-            background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff);
-            background-size: 300% 300%;
-            border: none;
-            border-radius: 50px;
-            color: #fff;
-            font-size: 1.2em;
-            font-weight: bold;
-            cursor: none;
-            position: relative;
-            overflow: hidden;
-            animation: gradientShift 3s ease infinite, fadeInUp 2s forwards 1s;
-            opacity: 0;
-            transition: transform 0.3s;
-        }
-
-        .galaxy-btn:hover {
-            transform: scale(1.1);
-        }
-
-        .galaxy-btn::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.3), transparent);
-            animation: rotate 3s linear infinite;
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        @keyframes rotate {
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Stage 2: Love Messages */
-        .love-messages {
-            color: #fff;
-            text-align: center;
-            max-width: 800px;
-            padding: 20px;
-        }
-
-        .message-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 40px;
-            margin: 20px 0;
-            transform: perspective(1000px) rotateY(0deg);
-            transition: transform 0.6s;
-            opacity: 0;
-            animation: slideIn 1s forwards;
-        }
-
-        @keyframes slideIn {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .message-card:hover {
-            transform: perspective(1000px) rotateY(5deg) scale(1.05);
-        }
-
-        .message-card h2 {
-            font-size: 2em;
-            margin-bottom: 20px;
-            background: linear-gradient(45deg, #ff69b4, #ff1493);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .message-card p {
-            font-size: 1.2em;
-            line-height: 1.8;
-            opacity: 0.9;
-        }
-
-        /* Floating hearts 3D */
-        .heart-3d {
-            position: absolute;
-            font-size: 30px;
-            animation: float3d 10s infinite;
-            transform-style: preserve-3d;
-        }
-
-        @keyframes float3d {
-            0% {
-                transform: translateZ(0px) translateY(100vh) rotateY(0deg);
-            }
-            100% {
-                transform: translateZ(200px) translateY(-100vh) rotateY(720deg);
-            }
-        }
-
-        /* Stage 3: The Question */
-        .question-stage {
-            color: #fff;
-            text-align: center;
-            perspective: 1000px;
-        }
-
-        .heart-container {
-            width: 200px;
-            height: 200px;
-            margin: 0 auto 50px;
-            position: relative;
-            transform-style: preserve-3d;
-            animation: rotateHeart 4s ease-in-out infinite;
-        }
-
-        @keyframes rotateHeart {
-            0%, 100% { transform: rotateY(0deg) rotateZ(0deg); }
-            50% { transform: rotateY(180deg) rotateZ(5deg); }
-        }
-
-        .neon-heart {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            background: radial-gradient(circle, #ff1493, transparent);
-            mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>');
-            mask-size: contain;
-            mask-repeat: no-repeat;
-            mask-position: center;
-            filter: drop-shadow(0 0 30px #ff1493);
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        .question-text {
-            font-size: 3em;
-            margin-bottom: 50px;
-            background: linear-gradient(90deg, #ff69b4, #ff1493, #ff69b4);
-            background-size: 200% 100%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradientMove 3s ease infinite;
-        }
-
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 200% 50%; }
-        }
-
-        /* Answer buttons */
-        .answer-buttons {
-            display: flex;
-            gap: 50px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .answer-btn {
-            padding: 20px 60px;
-            font-size: 1.5em;
-            border: none;
-            border-radius: 60px;
-            font-weight: bold;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s;
-            cursor: none;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .yes-btn {
-            background: linear-gradient(45deg, #ff006e, #ff4f8b);
-            color: #fff;
-            box-shadow: 0 10px 40px rgba(255, 0, 110, 0.5);
-        }
-
-        .yes-btn:hover {
-            transform: translateY(-5px) scale(1.1);
-            box-shadow: 0 15px 60px rgba(255, 0, 110, 0.7);
-        }
-
-        .no-btn {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
-        }
-
-        /* Fireworks */
-        .firework {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            animation: explode 1.5s ease-out forwards;
-        }
-
-        @keyframes explode {
-            0% {
-                transform: translate(0, 0);
-                opacity: 1;
-            }
-            100% {
-                transform: translate(var(--x), var(--y));
+            from {
                 opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
 
-        /* Celebration */
-        .celebration-overlay {
+        @media (max-width: 768px) {
+            .opening h1 { font-size: 2.5em; }
+            .moon { width: 100px; height: 100px; top: 30px; right: 30px; }
+            .chapter { padding: 30px; }
+            .chapter-title { font-size: 1.8em; }
+            .proposal-section { padding: 40px 30px; }
+            .proposal-section h2 { font-size: 2em; }
+        }
+
+        .clouds {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
+            pointer-events: none;
+            z-index: 1;
         }
 
-        .celebration-overlay.show {
-            display: flex;
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 100px;
+            opacity: 0.3;
+            animation: float 30s infinite ease-in-out;
         }
 
-        .celebration-content {
-            text-align: center;
-            color: #fff;
-            animation: zoomInRotate 1s ease;
-        }
-
-        @keyframes zoomInRotate {
-            from {
-                transform: scale(0) rotate(-180deg);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1) rotate(0deg);
-                opacity: 1;
-            }
-        }
-
-        .celebration-title {
-            font-size: 5em;
-            margin-bottom: 30px;
-            background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff, #ff006e);
-            background-size: 300% 100%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradientShift 2s ease infinite;
-        }
-
-        .celebration-message {
-            font-size: 1.5em;
-            opacity: 0.9;
-            max-width: 600px;
-            line-height: 1.6;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .intro-text h1 { font-size: 2.5em; }
-            .question-text { font-size: 2em; }
-            .answer-buttons { flex-direction: column; gap: 20px; }
-            .celebration-title { font-size: 3em; }
+        @keyframes float {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(50px); }
         }
     </style>
 </head>
 <body>
-    <!-- Custom cursor -->
-    <div class="cursor"></div>
+    <div class="night-sky"></div>
+    <div class="stars" id="stars"></div>
+    <div class="clouds" id="clouds"></div>
+    <div class="moon"></div>
+    
+    <div class="container">
+        <div class="opening">
+            <h1>✨ Dear Priya ✨</h1>
+            <p>This is my heart speaking... will you listen?</p>
+        </div>
 
-    <!-- Loading screen -->
-    <div class="loader" id="loader">
-        <div class="pulse-heart">💖</div>
-        <div class="loading-text">Preparing something special...</div>
-    </div>
+        <div class="chapter">
+            <h2 class="chapter-title">Eight Years of Moonlight</h2>
+            <div class="content">
+                <p>They say the moon takes 27 days to orbit the Earth. But my world? It's been orbiting around you for eight years. Every dawn, every dusk, every moment in between — you've been the constant in my sky, the light that never fades even when clouds gather.</p>
+                
+                <p>From the moment I saw you in 8th standard, glowing in that birthday dress, something inside me shifted. It wasn't just attraction. It wasn't just a crush. It was recognition — like my soul had been searching for something, and suddenly, there you were.</p>
 
-    <!-- Starfield canvas -->
-    <canvas id="canvas"></canvas>
+                <div class="quote">
+                    "In a world of seven billion people,<br>
+                    my heart chose you.<br>
+                    In a lifetime of countless moments,<br>
+                    it was yours that became eternal."
+                </div>
 
-    <!-- Main universe container -->
-    <div class="universe">
-        <!-- Stage 1: Introduction -->
-        <div class="stage active" id="stage1">
-            <div class="intro-text">
-                <h1>Welcome to Our Universe</h1>
-                <p>Where every star shines for you</p>
-                <button class="galaxy-btn" onclick="nextStage(2)">
-                    Begin Our Journey ✨
-                </button>
+                <p>I know I wasn't always visible. I know I chose silence when I should have spoken. But every quiet moment was filled with thoughts of you. Every step back was me trying to protect something precious — the possibility of us, someday.</p>
             </div>
         </div>
 
-        <!-- Stage 2: Love Messages -->
-        <div class="stage" id="stage2">
-            <div class="love-messages">
-                <div class="message-card">
-                    <h2>Chapter One: The Beginning</h2>
-                    <p>From the moment our paths crossed, the universe conspired to bring us together. Every star aligned, every moment led to you.</p>
+        <div class="heart-container">
+            <div class="heart">💙</div>
+        </div>
+
+        <div class="chapter">
+            <h2 class="chapter-title">The Girl Who Changed Everything</h2>
+            <div class="content">
+                <p>Priya, you've never just been a person in my life. You've been the reason I understood what it means to truly feel. You taught me patience without trying. You showed me beauty without effort. You made me believe in something pure, even when the world felt complicated.</p>
+
+                <p>Your eyes — those galaxies I mentioned — they're not just beautiful. They're home. Every time I looked into them, I found peace. Every time you smiled, the world made sense.</p>
+
+                <div class="image-placeholder">
+                    [Imagine here: a photo of the moon reflected in water, with two silhouettes standing together]
                 </div>
-                <div class="message-card" style="animation-delay: 0.3s;">
-                    <h2>Chapter Two: The Journey</h2>
-                    <p>With you, every day is an adventure. Your laughter creates constellations, your smile outshines the sun, and your presence makes everything feel like home.</p>
+
+                <p>I've spent eight years wondering what it would be like to make you laugh, to be the reason for your smile, to walk beside you not just in memory, but in reality. I've imagined conversations we'd have, moments we'd share, a future where I'm not just someone who admired you from afar, but someone who gets to know your dreams, your fears, your favorite songs, the way you take your coffee.</p>
+
+                <div class="quote">
+                    "They asked me why I loved you.<br>
+                    I said, 'Have you seen the moon?<br>
+                    Have you felt its pull?<br>
+                    That's what she is to me —<br>
+                    inevitable, essential, eternal.'"
                 </div>
-                <div class="message-card" style="animation-delay: 0.6s;">
-                    <h2>Chapter Three: The Future</h2>
-                    <p>I see galaxies in your eyes and infinity in our future. Together, we can create our own universe filled with love, laughter, and endless possibilities.</p>
-                </div>
-                <button class="galaxy-btn" onclick="nextStage(3)" style="margin-top: 30px;">
-                    The Important Question 💫
-                </button>
             </div>
         </div>
 
-        <!-- Stage 3: The Question -->
-        <div class="stage" id="stage3">
-            <div class="question-stage">
-                <div class="heart-container">
-                    <div class="neon-heart"></div>
+        <div class="heart-container">
+            <div class="heart">💙</div>
+        </div>
+
+        <div class="proposal-section">
+            <h2>Priya... Will You Let Me In?</h2>
+            
+            <div class="letter-section">
+                <p>I'm not asking you to love me back instantly. I'm not demanding a fairytale. I know life doesn't work that way.</p>
+
+                <p>What I'm asking is this: <strong>Will you give me a chance?</strong></p>
+
+                <p>A chance to know you — the real you, beyond the memories and the distance. A chance to make you smile. A chance to be there when you need someone. A chance to show you that the boy who's been silently falling for you all these years has grown into a man who wants to stand beside you.</p>
+
+                <p>I want to be the person you call when something amazing happens. I want to be the shoulder you lean on when life gets heavy. I want to know your story, not just the parts everyone sees, but the chapters you keep hidden.</p>
+
+                <p><strong>I'm asking if you'll let me love you — not from a distance, not in silence, but truly, openly, honestly.</strong></p>
+
+                <p>I know I'm not perfect. I know I'm still that quiet guy who overthinks everything. But I promise you this: I will never stop trying to be better. I will never stop caring. I will never take you for granted.</p>
+            </div>
+
+            <div class="quote" style="margin-top: 50px; font-size: 1.6em;">
+                "The moon is beautiful, isn't it?"<br><br>
+                <span style="font-size: 0.9em; color: #ffd700;">
+                    In Japanese, this phrase means:<br>
+                    "I love you."<br><br>
+                    And I do. With every fiber of my being,<br>
+                    I love you, Priya.
+                </span>
+            </div>
+
+            <div style="margin-top: 60px; font-size: 1.4em; line-height: 2.5;">
+                <p><strong>So here's my question, asked with trembling hope and unwavering sincerity:</strong></p>
+                <p style="font-size: 1.8em; color: #ffd700; margin-top: 30px;">
+                    <strong>Priya, will you be mine?</strong>
+                </p>
+                <p style="margin-top: 30px;">
+                    Will you let me turn these eight years of silent love<br>
+                    into a lifetime of spoken devotion?
+                </p>
+            </div>
+        </div>
+
+        <div class="chapter">
+            <h2 class="chapter-title">Whatever Your Answer...</h2>
+            <div class="content">
+                <p>If you say yes, I promise you won't regret it. I'll spend every day proving that your trust was worth it. I'll be your biggest supporter, your partner in dreams, your safe place in storms.</p>
+
+                <p>If you need time, I'll wait. I've waited eight years already — what's a little longer if it means a chance with you?</p>
+
+                <p>And if your answer is no... I'll understand. I'll hurt, yes. But I'll respect your choice. Because love, real love, wants the beloved's happiness above all else — even if that happiness doesn't include you.</p>
+
+                <div class="quote">
+                    "But my heart whispers that maybe,<br>
+                    just maybe,<br>
+                    you've been waiting too.<br>
+                    Maybe you've wondered about the quiet boy<br>
+                    who looked at you like you hung the stars.<br>
+                    Maybe, just maybe,<br>
+                    this is the beginning we were always meant to have."
                 </div>
-                <h1 class="question-text">Will You Be Mine?</h1>
-                <div class="answer-buttons">
-                    <button class="answer-btn yes-btn" onclick="celebrate()">
-                        YES! 💕
-                    </button>
-                    <button class="answer-btn no-btn" id="noBtn" onmouseover="dodgeButton()">
-                        Let me think...
-                    </button>
+
+                <p>So I'm here, Priya. Heart open, soul bared, hoping against hope that you'll take my hand and say, "Let's see where this goes."</p>
+
+                <div class="signature">
+                    Forever yours, with hope and love,<br>
+                    <strong>Mahesh 💙</strong><br>
+                    <em>The boy who fell for the moon<br>
+                    and never stopped falling</em>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Celebration Overlay -->
-    <div class="celebration-overlay" id="celebration">
-        <div class="celebration-content">
-            <h1 class="celebration-title">You Said Yes! 🎉</h1>
-            <p class="celebration-message">
-                This is the beginning of our beautiful story.<br>
-                Every moment from now on will be magical because it's with you.<br><br>
-                You've made me the happiest person in the entire universe! 💖
+        <div class="heart-container" style="margin-top: 80px;">
+            <div class="heart" style="font-size: 5em;">💙</div>
+            <p style="font-size: 1.3em; margin-top: 20px; color: #ffd700; font-style: italic;">
+                Waiting for your answer... under the same moon we've both looked at all these years.
             </p>
         </div>
     </div>
 
     <script>
-        // Hide loader after page loads
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loader').classList.add('hide');
-            }, 2500);
-        });
+        // Create stars with varied sizes
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 200; i++) {
+            const star = document.createElement('div');
+            const sizeClass = Math.random() > 0.7 ? 'large' : (Math.random() > 0.4 ? 'medium' : 'small');
+            star.className = `star ${sizeClass}`;
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 4 + 's';
+            starsContainer.appendChild(star);
+        }
 
-        // Custom cursor
-        const cursor = document.querySelector('.cursor');
-        document.addEventListener('mousemove', e => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
+        // Create shooting stars
+        for (let i = 0; i < 3; i++) {
+            const shootingStar = document.createElement('div');
+            shootingStar.className = 'shooting-star';
+            shootingStar.style.left = Math.random() * 100 + '%';
+            shootingStar.style.top = Math.random() * 50 + '%';
+            shootingStar.style.width = (Math.random() * 100 + 50) + 'px';
+            shootingStar.style.animationDelay = (Math.random() * 10) + 's';
+            shootingStar.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            starsContainer.appendChild(shootingStar);
+        }
 
-            const trail = document.createElement('div');
-            trail.className = 'cursor-trail';
-            trail.style.left = e.clientX + 'px';
-            trail.style.top = e.clientY + 'px';
-            document.body.appendChild(trail);
-            setTimeout(() => trail.remove(), 1000);
-        });
+        // Create clouds
+        const cloudsContainer = document.getElementById('clouds');
+        for (let i = 0; i < 5; i++) {
+            const cloud = document.createElement('div');
+            cloud.className = 'cloud';
+            cloud.style.left = Math.random() * 100 + '%';
+            cloud.style.top = Math.random() * 100 + '%';
+            cloud.style.width = (Math.random() * 200 + 100) + 'px';
+            cloud.style.height = (Math.random() * 60 + 40) + 'px';
+            cloud.style.animationDelay = (Math.random() * 10) + 's';
+            cloudsContainer.appendChild(cloud);
+        }
 
-        // Stage navigation
-        let currentStage = 1;
-        function nextStage(stage) {
-            const current = document.getElementById(`stage${currentStage}`);
-            const next = document.getElementById(`stage${stage}`);
-
-            // Hide current
-            current.classList.remove('active');
-
-            // Show next (but wait before activating)
-            next.style.display = "flex";
-            next.classList.remove("active");
-
-            setTimeout(() => {
-                next.classList.add("active");
-                currentStage = stage;
-
-                if (stage === 3) {
-                    createFloatingHearts();
+        // Smooth scroll animation observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
                 }
-            }, 50);
-        }
+            });
+        }, { threshold: 0.1 });
 
-        // Floating hearts
-        function createFloatingHearts() {
-            setInterval(() => {
-                const heart = document.createElement('div');
-                heart.className = 'heart-3d';
-                heart.innerHTML = '💖';
-                heart.style.left = Math.random() * window.innerWidth + 'px';
-                heart.style.animationDuration = (5 + Math.random() * 5) + 's';
-                document.body.appendChild(heart);
-                setTimeout(() => heart.remove(), 10000);
-            }, 800);
-        }
-
-        // Dodge "No" button
-        function dodgeButton() {
-            const btn = document.getElementById('noBtn');
-            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
-            btn.style.position = 'absolute';
-            btn.style.left = x + 'px';
-            btn.style.top = y + 'px';
-        }
-
-        // Celebration
-        function celebrate() {
-            const overlay = document.getElementById('celebration');
-            overlay.classList.add('show');
-            createFireworks();
-        }
-
-        function createFireworks() {
-            for (let i = 0; i < 20; i++) {
-                const firework = document.createElement('div');
-                firework.className = 'firework';
-                firework.style.left = '50%';
-                firework.style.top = '50%';
-                firework.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
-                firework.style.setProperty('--x', `${(Math.random() - 0.5) * 400}px`);
-                firework.style.setProperty('--y', `${(Math.random() - 0.5) * 400}px`);
-                document.body.appendChild(firework);
-                setTimeout(() => firework.remove(), 1500);
-            }
-        }
-
-        // Starfield
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        let stars = [];
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            stars = Array(200).fill().map(() => ({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                z: Math.random() * canvas.width
-            }));
-        }
-
-        function animateStars() {
-            ctx.fillStyle = '#000';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            ctx.fillStyle = 'white';
-            for (let star of stars) {
-                star.z -= 2;
-                if (star.z <= 0) star.z = canvas.width;
-
-                let k = 128.0 / star.z;
-                let px = star.x * k + canvas.width / 2;
-                let py = star.y * k + canvas.height / 2;
-
-                if (px >= 0 && px <= canvas.width && py >= 0 && py <= canvas.height) {
-                    let size = (1 - star.z / canvas.width) * 3;
-                    ctx.beginPath();
-                    ctx.arc(px, py, size, 0, 2 * Math.PI);
-                    ctx.fill();
-                }
-            }
-            requestAnimationFrame(animateStars);
-        }
-
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-        animateStars();
+        document.querySelectorAll('.chapter, .proposal-section').forEach(element => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(40px)';
+            element.style.transition = 'all 1s ease';
+            observer.observe(element);
+        });
     </script>
 </body>
 </html>
