@@ -3,556 +3,446 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Priya... Will You Be Mine?</title>
+    <title>For You</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        * {
+        :root {
+            --primary: #ff4d6d;
+            --secondary: #ff8fa3;
+            --accent: #fff0f3;
+            --dark: #2d0010;
+        }
+
+        body, html {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #0f0c29;
+            background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+            font-family: 'Montserrat', sans-serif;
+            color: white;
         }
 
-        body {
-            font-family: 'Georgia', serif;
-            background: #0a0e27;
-            color: #fff;
-            overflow-x: hidden;
-            line-height: 1.8;
-            position: relative;
-        }
-
-        .night-sky {
-            position: fixed;
+        /* Canvas Background */
+        #canvas-container {
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(180deg, #0a0e27 0%, #1a1f3a 50%, #2d1b4e 100%);
             z-index: 0;
-        }
-
-        .stars {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
             pointer-events: none;
-            z-index: 1;
         }
 
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 4s infinite;
-        }
-
-        .star.small { width: 1px; height: 1px; }
-        .star.medium { width: 2px; height: 2px; }
-        .star.large { width: 3px; height: 3px; box-shadow: 0 0 4px #fff; }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.2; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
-        }
-
-        .shooting-star {
-            position: absolute;
-            height: 2px;
-            background: linear-gradient(90deg, #fff, transparent);
-            animation: shoot 3s linear infinite;
-        }
-
-        @keyframes shoot {
-            0% {
-                transform: translateX(0) translateY(0);
-                opacity: 1;
-            }
-            100% {
-                transform: translateX(-300px) translateY(300px);
-                opacity: 0;
-            }
-        }
-
-        .moon {
-            position: fixed;
-            top: 80px;
-            right: 100px;
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 35% 35%, #fefefe, #f0e68c 30%, #daa520 100%);
-            box-shadow: 
-                0 0 60px rgba(255, 255, 200, 0.6),
-                0 0 100px rgba(255, 255, 200, 0.4),
-                inset -20px -20px 40px rgba(0, 0, 0, 0.1);
-            animation: moonGlow 4s ease-in-out infinite;
-            z-index: 2;
-        }
-
-        .moon::before {
-            content: '';
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.05);
-            top: 40px;
-            left: 50px;
-        }
-
-        .moon::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.03);
-            top: 80px;
-            right: 40px;
-        }
-
-        @keyframes moonGlow {
-            0%, 100% { 
-                box-shadow: 
-                    0 0 60px rgba(255, 255, 200, 0.6),
-                    0 0 100px rgba(255, 255, 200, 0.4),
-                    inset -20px -20px 40px rgba(0, 0, 0, 0.1);
-            }
-            50% { 
-                box-shadow: 
-                    0 0 80px rgba(255, 255, 200, 0.8),
-                    0 0 120px rgba(255, 255, 200, 0.5),
-                    inset -20px -20px 40px rgba(0, 0, 0, 0.1);
-            }
-        }
-
-        .container {
-            position: relative;
-            z-index: 3;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 60px 20px;
-        }
-
-        .opening {
-            text-align: center;
-            margin-bottom: 80px;
-            animation: fadeInScale 2s ease;
-        }
-
-        .opening h1 {
-            font-size: 4em;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #ffd700, #fff, #ffd700);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
-            letter-spacing: 3px;
-        }
-
-        .opening p {
-            font-size: 1.5em;
-            opacity: 0.9;
-            font-style: italic;
-            color: #ffd700;
-        }
-
-        @keyframes fadeInScale {
-            from {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .chapter {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            border-radius: 30px;
-            padding: 50px;
-            margin-bottom: 50px;
-            box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.4),
-                inset 0 0 40px rgba(255, 215, 0, 0.05);
-            animation: fadeInUp 1s ease;
-            border: 2px solid rgba(255, 215, 0, 0.2);
-        }
-
-        .chapter-title {
-            font-size: 2.5em;
-            margin-bottom: 30px;
-            color: #ffd700;
-            text-align: center;
-            position: relative;
-            padding-bottom: 20px;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
-        }
-
-        .chapter-title:after {
-            content: '✨';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.6em;
-        }
-
-        .content {
-            font-size: 1.2em;
-            line-height: 2.2;
-            text-align: justify;
-        }
-
-        .content p {
-            margin-bottom: 25px;
-            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-
-        .quote {
-            font-style: italic;
-            text-align: center;
-            font-size: 1.4em;
-            margin: 40px 0;
-            padding: 30px;
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 255, 255, 0.05));
-            border-left: 5px solid #ffd700;
-            border-radius: 15px;
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
-            line-height: 2;
-        }
-
-        .proposal-section {
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 255, 255, 0.1));
-            backdrop-filter: blur(20px);
-            border-radius: 30px;
-            padding: 60px;
-            margin: 80px 0;
-            text-align: center;
-            border: 3px solid rgba(255, 215, 0, 0.4);
-            box-shadow: 
-                0 0 60px rgba(255, 215, 0, 0.4),
-                inset 0 0 60px rgba(255, 215, 0, 0.1);
-            animation: pulseGlow 3s infinite;
-        }
-
-        @keyframes pulseGlow {
-            0%, 100% {
-                box-shadow: 
-                    0 0 60px rgba(255, 215, 0, 0.4),
-                    inset 0 0 60px rgba(255, 215, 0, 0.1);
-            }
-            50% {
-                box-shadow: 
-                    0 0 80px rgba(255, 215, 0, 0.6),
-                    inset 0 0 80px rgba(255, 215, 0, 0.15);
-            }
-        }
-
-        .proposal-section h2 {
-            font-size: 3em;
-            margin-bottom: 30px;
-            color: #ffd700;
-            text-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
-        }
-
-        .proposal-section p {
-            font-size: 1.5em;
-            line-height: 2.2;
-            margin-bottom: 30px;
-        }
-
-        .heart-container {
-            text-align: center;
-            margin: 50px 0;
-        }
-
-        .heart {
-            display: inline-block;
-            font-size: 4em;
-            animation: heartbeat 1.5s infinite;
-            filter: drop-shadow(0 0 20px rgba(255, 0, 100, 0.8));
-        }
-
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            25% { transform: scale(1.2); }
-            50% { transform: scale(1); }
-        }
-
-        .letter-section {
+        /* Glassmorphism Card */
+        .glass-card {
             background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
-            padding: 40px;
-            margin: 40px 0;
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            font-size: 1.15em;
-            line-height: 2;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 24px;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+            transition: all 0.5s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            display: none; /* Hidden by default */
+            max-width: 90%;
+            width: 500px;
+            text-align: center;
         }
 
-        .signature {
-            text-align: right;
-            font-style: italic;
-            margin-top: 30px;
-            font-size: 1.3em;
-            color: #ffd700;
-        }
-
-        .image-placeholder {
-            width: 100%;
-            height: 300px;
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 255, 255, 0.05));
-            border-radius: 20px;
+        .glass-card.active {
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            margin: 30px 0;
-            border: 2px dashed rgba(255, 215, 0, 0.3);
-            font-style: italic;
-            color: rgba(255, 255, 255, 0.5);
+            opacity: 1;
+            transform: translateY(0);
+            animation: fadeIn 1s forwards;
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        @media (max-width: 768px) {
-            .opening h1 { font-size: 2.5em; }
-            .moon { width: 100px; height: 100px; top: 30px; right: 30px; }
-            .chapter { padding: 30px; }
-            .chapter-title { font-size: 1.8em; }
-            .proposal-section { padding: 40px 30px; }
-            .proposal-section h2 { font-size: 2em; }
+        /* Typography */
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
-        .clouds {
-            position: fixed;
-            top: 0;
-            left: 0;
+        .script-font {
+            font-family: 'Dancing Script', cursive;
+            color: var(--secondary);
+            font-size: 1.5rem;
+        }
+
+        p {
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            margin: 0 10px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: #ff2a52;
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 77, 109, 0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* The Runaway Button */
+        #no-btn {
+            position: absolute;
+            transition: all 0.2s ease; /* Faster transition for the dodge */
+        }
+
+        /* Photo Frame */
+        .photo-frame {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid var(--secondary);
+            margin: 0 auto 20px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 0 20px rgba(255, 143, 163, 0.3);
+            background-color: #000;
+        }
+
+        .photo-frame img {
             width: 100%;
             height: 100%;
-            pointer-events: none;
-            z-index: 1;
+            object-fit: cover;
         }
 
-        .cloud {
+        /* Floating Hearts Animation */
+        .heart {
             position: absolute;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 100px;
-            opacity: 0.3;
-            animation: float 30s infinite ease-in-out;
+            color: var(--primary);
+            animation: floatUp 4s linear forwards;
+            font-size: 20px;
+            pointer-events: none;
+            z-index: 5;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateX(0); }
-            50% { transform: translateX(50px); }
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100vh) scale(0); opacity: 0; }
         }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* Typing cursor */
+        .typing::after {
+            content: '|';
+            animation: blink 1s step-start infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
     </style>
 </head>
 <body>
-    <div class="night-sky"></div>
-    <div class="stars" id="stars"></div>
-    <div class="clouds" id="clouds"></div>
-    <div class="moon"></div>
-    
-    <div class="container">
-        <div class="opening">
-            <h1>✨ Dear Priya ✨</h1>
-            <p>This is my heart speaking... will you listen?</p>
+
+    <canvas id="canvas-container"></canvas>
+
+    <div class="wrapper">
+        
+        <!-- Scene 1: Introduction -->
+        <div id="scene-1" class="glass-card active">
+            <h1 class="text-3xl md:text-5xl mb-4">Hey <span class="text-pink-400"><!-- CHANGE THIS -->Love</span>...</h1>
+            <p class="text-lg">I created a little universe just for you.</p>
+            <p>Ready to enter?</p>
+            <button onclick="nextScene(2)" class="btn btn-primary mt-4">Start Journey</button>
         </div>
 
-        <div class="chapter">
-            <h2 class="chapter-title">Eight Years of Moonlight</h2>
-            <div class="content">
-                <p>They say the moon takes 27 days to orbit the Earth. But my world? It's been orbiting around you for eight years. Every dawn, every dusk, every moment in between — you've been the constant in my sky, the light that never fades even when clouds gather.</p>
-                
-                <p>From the moment I saw you in 8th standard, glowing in that birthday dress, something inside me shifted. It wasn't just attraction. It wasn't just a crush. It was recognition — like my soul had been searching for something, and suddenly, there you were.</p>
-
-                <div class="quote">
-                    "In a world of seven billion people,<br>
-                    my heart chose you.<br>
-                    In a lifetime of countless moments,<br>
-                    it was yours that became eternal."
-                </div>
-
-                <p>I know I wasn't always visible. I know I chose silence when I should have spoken. But every quiet moment was filled with thoughts of you. Every step back was me trying to protect something precious — the possibility of us, someday.</p>
-            </div>
-        </div>
-
-        <div class="heart-container">
-            <div class="heart">💙</div>
-        </div>
-
-        <div class="chapter">
-            <h2 class="chapter-title">The Girl Who Changed Everything</h2>
-            <div class="content">
-                <p>Priya, you've never just been a person in my life. You've been the reason I understood what it means to truly feel. You taught me patience without trying. You showed me beauty without effort. You made me believe in something pure, even when the world felt complicated.</p>
-
-                <p>Your eyes — those galaxies I mentioned — they're not just beautiful. They're home. Every time I looked into them, I found peace. Every time you smiled, the world made sense.</p>
-
-                <div style="width: 100%; margin: 30px 0; border-radius: 20px; overflow: hidden; box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);">
-                    <img src="https://static.vecteezy.com/system/resources/thumbnails/067/254/236/small/silhouette-person-raising-hands-under-full-moon-night-calm-water-trees-landscape-photo.jpg" alt="Moon reflecting on water" style="width: 100%; height: auto; display: block;">
-                </div>
-
-                <p>I've spent eight years wondering what it would be like to make you laugh, to be the reason for your smile, to walk beside you not just in memory, but in reality. I've imagined conversations we'd have, moments we'd share, a future where I'm not just someone who admired you from afar, but someone who gets to know your dreams, your fears, your favorite songs, the way you take your coffee.</p>
-
-                <div class="quote">
-                    "They asked me why I loved you.<br>
-                    I said, 'Have you seen the moon?<br>
-                    Have you felt its pull?<br>
-                    That's what she is to me —<br>
-                    inevitable, essential, eternal.'"
-                </div>
-            </div>
-        </div>
-
-        <div class="heart-container">
-            <div class="heart">💙</div>
-        </div>
-
-        <div class="proposal-section">
-            <h2>Priya... Will You Let Me In?</h2>
+        <!-- Scene 2: The Letter -->
+        <div id="scene-2" class="glass-card">
+            <!-- Optional: Replace src with a photo URL of her or both of you -->
+            <!-- <div class="photo-frame"><img src="https://via.placeholder.com/150" alt="Us"></div> -->
             
-            <div class="letter-section">
-                <p>I'm not asking you to love me back instantly. I'm not demanding a fairytale. I know life doesn't work that way.</p>
-
-                <p>What I'm asking is this: <strong>Will you give me a chance?</strong></p>
-
-                <p>A chance to know you — the real you, beyond the memories and the distance. A chance to make you smile. A chance to be there when you need someone. A chance to show you that the boy who's been silently falling for you all these years has grown into a man who wants to stand beside you.</p>
-
-                <p>I want to be the person you call when something amazing happens. I want to be the shoulder you lean on when life gets heavy. I want to know your story, not just the parts everyone sees, but the chapters you keep hidden.</p>
-
-                <p><strong>I'm asking if you'll let me love you — not from a distance, not in silence, but truly, openly, honestly.</strong></p>
-
-                <p>I know I'm not perfect. I know I'm still that quiet guy who overthinks everything. But I promise you this: I will never stop trying to be better. I will never stop caring. I will never take you for granted.</p>
-            </div>
-
-            <div class="quote" style="margin-top: 50px; font-size: 1.6em;">
-                "The moon is beautiful, isn't it?"<br><br>
-                <span style="font-size: 0.9em; color: #ffd700;">
-                    In Japanese, this phrase means:<br>
-                    "I love you."<br><br>
-                    And I do. With every fiber of my being,<br>
-                    I love you, Priya.
-                </span>
-            </div>
-
-            <div style="margin-top: 60px; font-size: 1.4em; line-height: 2.5;">
-                <p><strong>So here's my question, asked with trembling hope and unwavering sincerity:</strong></p>
-                <p style="font-size: 1.8em; color: #ffd700; margin-top: 30px;">
-                    <strong>Priya, will you be mine?</strong>
-                </p>
-                <p style="margin-top: 30px;">
-                    Will you let me turn these eight years of silent love<br>
-                    into a lifetime of spoken devotion?
-                </p>
-            </div>
+            <p id="typewriter-text" class="text-lg md:text-xl text-left min-h-[100px]"></p>
+            
+            <button id="scene-2-btn" onclick="nextScene(3)" class="btn btn-primary mt-6 hidden">Continue</button>
         </div>
 
-        <div class="chapter">
-            <h2 class="chapter-title">Whatever Your Answer...</h2>
-            <div class="content">
-                <p>If you say yes, I promise you won't regret it. I'll spend every day proving that your trust was worth it. I'll be your biggest supporter, your partner in dreams, your safe place in storms.</p>
+        <!-- Scene 3: The Proposal -->
+        <div id="scene-3" class="glass-card w-full max-w-2xl relative" style="min-height: 500px; justify-content: center;">
+            <div class="z-20 flex flex-col items-center w-full px-4">
+                <span class="script-font text-3xl mb-2">I have a question...</span>
+                <h1 class="text-4xl md:text-6xl mb-6 leading-tight">Will you be my <br><span style="color: #ff4d6d">Soulmate?</span></h1>
+                
+                <p class="text-lg mb-8 max-w-lg mx-auto">I promise I will take care of you and your family, and mine too, with the love I show to my family.</p>
 
-                <p>If you need time, I'll wait. I've waited eight years already — what's a little longer if it means a chance with you?</p>
-
-                <p>And if your answer is no... I'll understand. I'll hurt, yes. But I'll respect your choice. Because love, real love, wants the beloved's happiness above all else — even if that happiness doesn't include you.</p>
-
-                <div class="quote">
-                    "But my heart whispers that maybe,<br>
-                    just maybe,<br>
-                    you've been waiting too.<br>
-                    Maybe you've wondered about the quiet boy<br>
-                    who looked at you like you hung the stars.<br>
-                    Maybe, just maybe,<br>
-                    this is the beginning we were always meant to have."
-                </div>
-
-                <p>So I'm here, Priya. Heart open, soul bared, hoping against hope that you'll take my hand and say, "Let's see where this goes."</p>
-
-                <div class="signature">
-                    Forever yours, with hope and love,<br>
-                    <strong>Mahesh 💙</strong><br>
-                    <em>The boy who fell for the moon<br>
-                    and never stopped falling</em>
+                <div class="flex justify-center items-center gap-8 w-full relative h-20">
+                    <button onclick="acceptProposal()" class="btn btn-primary z-30 text-xl px-12">YES</button>
+                    <!-- The container for the No button to move within -->
+                    <div id="no-btn-container" class="relative w-32 h-16">
+                        <button id="no-btn" class="btn btn-secondary text-sm z-20">No</button>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="heart-container" style="margin-top: 80px;">
-            <div class="heart" style="font-size: 5em;">💙</div>
-            <p style="font-size: 1.3em; margin-top: 20px; color: #ffd700; font-style: italic;">
-                Waiting for your answer... under the same moon we've both looked at all these years.
-            </p>
+        <!-- Scene 4: Success -->
+        <div id="scene-4" class="glass-card">
+            <h1 class="text-5xl mb-4">You said YES! ❤️</h1>
+            <p class="text-xl">You just made me the happiest person in the universe.</p>
+            <div class="mt-8 text-6xl animate-bounce">
+                💑
+            </div>
+            <p class="mt-8 text-sm opacity-70">Screenshot this and send it to me!</p>
         </div>
+
     </div>
 
+    <!-- Audio Element (Optional - Browsers block autoplay, so it starts on first interaction) -->
+    <!-- You can add an mp3 file here -->
+    <!-- <audio id="bg-music" loop>
+        <source src="your-song.mp3" type="audio/mpeg">
+    </audio> -->
+
     <script>
-        // Create stars with varied sizes
-        const starsContainer = document.getElementById('stars');
-        for (let i = 0; i < 200; i++) {
-            const star = document.createElement('div');
-            const sizeClass = Math.random() > 0.7 ? 'large' : (Math.random() > 0.4 ? 'medium' : 'small');
-            star.className = `star ${sizeClass}`;
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.animationDelay = Math.random() * 4 + 's';
-            starsContainer.appendChild(star);
+        // --- 1. Background Particle System (Stars/Fireflies) ---
+        const canvas = document.getElementById('canvas-container');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 2;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+                this.opacity = Math.random();
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > width) this.x = 0;
+                if (this.x < 0) this.x = width;
+                if (this.y > height) this.y = 0;
+                if (this.y < 0) this.y = height;
+                
+                // Twinkle effect
+                this.opacity += Math.random() * 0.02 - 0.01;
+                if (this.opacity < 0) this.opacity = 0;
+                if (this.opacity > 1) this.opacity = 1;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
         }
 
-        // Create shooting stars
-        for (let i = 0; i < 3; i++) {
-            const shootingStar = document.createElement('div');
-            shootingStar.className = 'shooting-star';
-            shootingStar.style.left = Math.random() * 100 + '%';
-            shootingStar.style.top = Math.random() * 50 + '%';
-            shootingStar.style.width = (Math.random() * 100 + 50) + 'px';
-            shootingStar.style.animationDelay = (Math.random() * 10) + 's';
-            shootingStar.style.animationDuration = (Math.random() * 2 + 2) + 's';
-            starsContainer.appendChild(shootingStar);
+        function initParticles() {
+            for (let i = 0; i < 150; i++) {
+                particles.push(new Particle());
+            }
         }
 
-        // Create clouds
-        const cloudsContainer = document.getElementById('clouds');
-        for (let i = 0; i < 5; i++) {
-            const cloud = document.createElement('div');
-            cloud.className = 'cloud';
-            cloud.style.left = Math.random() * 100 + '%';
-            cloud.style.top = Math.random() * 100 + '%';
-            cloud.style.width = (Math.random() * 200 + 100) + 'px';
-            cloud.style.height = (Math.random() * 60 + 40) + 'px';
-            cloud.style.animationDelay = (Math.random() * 10) + 's';
-            cloudsContainer.appendChild(cloud);
+        function animateParticles() {
+            ctx.clearRect(0, 0, width, height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+            }
+            requestAnimationFrame(animateParticles);
         }
 
-        // Smooth scroll animation observer
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
+        initParticles();
+        animateParticles();
+
+
+        // --- 2. Logic & Interactions ---
+
+        // Custom Message for Scene 2
+        // CHANGE THIS MESSAGE TO BE PERSONAL
+        const message = "From the moment we met, my world got brighter. Your smile is my favorite view, and your laugh is my favorite sound. I can't imagine my days without you in them. You are extraordinary in every way.";
+        
+        const typeSpeed = 50; // ms per char
+        let typeIndex = 0;
+
+        function typeWriter() {
+            const el = document.getElementById('typewriter-text');
+            el.classList.add('typing');
+            if (typeIndex < message.length) {
+                el.innerHTML += message.charAt(typeIndex);
+                typeIndex++;
+                setTimeout(typeWriter, typeSpeed);
+            } else {
+                el.classList.remove('typing');
+                document.getElementById('scene-2-btn').classList.remove('hidden');
+            }
+        }
+
+        function nextScene(sceneNum) {
+            // Hide all scenes
+            document.querySelectorAll('.glass-card').forEach(card => {
+                card.classList.remove('active');
+                setTimeout(() => {
+                    if(!card.classList.contains('active')) card.style.display = 'none';
+                }, 500); 
             });
-        }, { threshold: 0.1 });
 
-        document.querySelectorAll('.chapter, .proposal-section').forEach(element => {
-            element.style.opacity = '0';
-            element.style.transform = 'translateY(40px)';
-            element.style.transition = 'all 1s ease';
-            observer.observe(element);
+            // Show target scene
+            const target = document.getElementById(`scene-${sceneNum}`);
+            target.style.display = 'flex';
+            
+            // Small delay to allow display:flex to apply before opacity transition
+            setTimeout(() => {
+                target.classList.add('active');
+            }, 50);
+
+            // Special logic for Scene 2
+            if (sceneNum === 2) {
+                setTimeout(typeWriter, 1000);
+            }
+        }
+
+        // --- 3. The Runaway "No" Button ---
+        const noBtn = document.getElementById('no-btn');
+        const noBtnContainer = document.getElementById('no-btn-container');
+
+        // Logic for Desktop (Mouse)
+        noBtn.addEventListener('mouseover', moveButton);
+        
+        // Logic for Mobile (Touch) - moves when they try to tap
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Prevent click
+            moveButton();
         });
+
+        function moveButton() {
+            const containerRect = document.getElementById('scene-3').getBoundingClientRect();
+            const btnRect = noBtn.getBoundingClientRect();
+            
+            // Calculate random position within the card
+            // We ensure it stays within the main card (scene-3)
+            // But we use fixed positioning relative to the viewport or absolute to the card
+            
+            // Simpler approach: Move it randomly by +/- 100px to 200px
+            const xOffset = (Math.random() * 300) - 150; 
+            const yOffset = (Math.random() * 300) - 150;
+            
+            // Apply transform instead of changing top/left to keep it relative to its start
+            // Note: This stacks, so we need to track current translation or just use absolute coordinates
+            
+            // Let's switch to Fixed Position strategy for maximum evasiveness
+            noBtn.style.position = 'fixed';
+            
+            // Get viewport dimensions
+            const maxX = window.innerWidth - btnRect.width - 20;
+            const maxY = window.innerHeight - btnRect.height - 20;
+            
+            const randomX = Math.max(20, Math.random() * maxX);
+            const randomY = Math.max(20, Math.random() * maxY);
+            
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+            
+            // Change text purely for fun after a few tries
+            const texts = ["Are you sure?", "Really?", "Think again!", "Nope!", "Catch me!", "Please?"];
+            noBtn.innerText = texts[Math.floor(Math.random() * texts.length)];
+        }
+
+        // --- 4. The Celebration (Yes Button) ---
+        function acceptProposal() {
+            // Explode hearts
+            createHeartExplosion();
+            
+            // Move to final scene
+            nextScene(4);
+            
+            // Continuous Celebration
+            setInterval(createHeartExplosion, 800);
+        }
+
+        function createHeartExplosion() {
+            const colors = ['#ff4d6d', '#ff8fa3', '#fff0f3', '#ffd700'];
+            
+            for (let i = 0; i < 50; i++) {
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤';
+                heart.classList.add('heart');
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = '100vh'; // Start from bottom
+                heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Randomize animation duration
+                heart.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                
+                document.body.appendChild(heart);
+                
+                // Remove after animation
+                setTimeout(() => {
+                    heart.remove();
+                }, 4000);
+            }
+        }
+
     </script>
 </body>
 </html>
